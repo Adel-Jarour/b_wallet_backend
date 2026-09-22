@@ -2,12 +2,15 @@ const app = require('./app');
 const { env } = require('./config/env');
 const logger = require('./config/logger');
 
-const server = app.listen(env.PORT, () => {
+const PORT = Number(process.env.PORT) || env.PORT || 3000;
+const HOST = '0.0.0.0';
+
+const server = app.listen(PORT, HOST, () => {
   logger.info({
-    port: env.PORT,
-    environment: env.NODE_ENV,
-    url: `http://localhost:${env.PORT}`
-  }, `🚀 B-Wallet Backend server running on port ${env.PORT}`);
+    port: PORT,
+    host: HOST,
+    environment: env.NODE_ENV
+  }, `🚀 B-Wallet Backend server running on http://${HOST}:${PORT}`);
 });
 
 // Graceful shutdown handling

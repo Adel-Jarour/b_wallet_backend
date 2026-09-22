@@ -63,6 +63,11 @@ class SlidingWindowRateLimiter {
         return next();
       }
 
+      // Bypass health check endpoints from rate limiting so cloud health probes (Render, k8s, ALBs) never hit 429
+      if (req.path === '/health' || req.originalUrl === '/health' || req.path === '/api/v1/health' || req.originalUrl === '/api/v1/health') {
+        return next();
+      }
+
       const key = `${this.name}:${this.keyGenerator(req)}`;
       const now = Date.now();
       const windowStart = now - this.windowMs;
