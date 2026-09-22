@@ -1,0 +1,51 @@
+{
+  "id": "b-wallet-local-env",
+  "name": "B-Wallet Local Environment",
+  "values": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "refreshToken",
+      "value": "",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "idempotencyKey",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "transactionTicket",
+      "value": "",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "receiverPhone",
+      "value": "+15559876543",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "webhookSecret",
+      "value": "test_webhook_secret_key_bwallet_2026",
+      "type": "secret",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2026-09-21T13:30:00.000Z",
+  "_postman_exported_using": "Postman/10.20.0"
+}

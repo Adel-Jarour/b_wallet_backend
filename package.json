@@ -1,0 +1,50 @@
+{
+  "name": "b-wallet-backend",
+  "version": "1.0.0",
+  "description": "B-Wallet FinTech Backend Engine (Node.js, Express, Supabase PostgreSQL)",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest --detectOpenHandles --runInBand --forceExit",
+    "test:watch": "jest --watch",
+    "verify:supabase": "node scripts/verify-supabase.js",
+    "migrate": "node database/scripts/migrate.js",
+    "test:schema": "jest --detectOpenHandles --runInBand --forceExit tests/integration/schema.test.js"
+  },
+  "keywords": [
+    "fintech",
+    "wallet",
+    "express",
+    "supabase",
+    "postgresql",
+    "double-entry"
+  ],
+  "author": "B-Wallet Engineering Team",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
+    "argon2": "^0.45.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "pino": "^9.6.0",
+    "pino-http": "^10.4.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.9",
+    "pino-pretty": "^13.0.0",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ],
+    "verbose": true,
+    "testTimeout": 30000
+  }
+}
