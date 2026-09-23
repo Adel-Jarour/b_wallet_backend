@@ -10,6 +10,8 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 
+const helmet = require('helmet');
+
 const router = express.Router();
 const openApiSpecPath = path.join(__dirname, '..', '..', 'docs', 'openapi.json');
 
@@ -25,6 +27,18 @@ try {
   };
 }
 
+// Targeted Content Security Policy for Redoc documentation UI
+// Allows Redoc CDN script and web worker blob without relaxing global API CSP
+const docsCsp = helmet.contentSecurityPolicy({
+  directives: {
+    ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+    'script-src': ["'self'", 'https://cdn.redoc.ly'],
+    'img-src': ["'self'", 'data:', 'https:'],
+    'worker-src': ["'self'", 'blob:'],
+    'child-src': ["'self'", 'blob:']
+  }
+});
+
 // 1. Raw OpenAPI 3.0 JSON specification
 router.get('/api-docs.json', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
@@ -32,7 +46,7 @@ router.get('/api-docs.json', (req, res) => {
 });
 
 // 2. Interactive Documentation Viewer (Zero-Dependency Redoc HTML UI)
-router.get('/api-docs', (req, res) => {
+router.get('/api-docs', docsCsp, (req, res) => {
   const html = `<!DOCTYPE html>
 <html>
   <head>

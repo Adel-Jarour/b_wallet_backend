@@ -103,4 +103,33 @@ describe('Integration: Health Check & Middleware Endpoints', () => {
       expect(res.body.error).toHaveProperty('correlationId');
     });
   });
+
+  describe('OpenAPI & Documentation Viewer (/api-docs)', () => {
+    test('should serve OpenAPI 3.0 specification at GET /api-docs.json', async () => {
+      const res = await request(app)
+        .get('/api-docs.json')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(res.body).toHaveProperty('openapi', '3.0.3');
+      expect(res.body).toHaveProperty('info');
+      expect(res.body.info).toHaveProperty('title');
+      expect(res.body).toHaveProperty('paths');
+    });
+
+    test('should serve interactive HTML with targeted CSP allowing cdn.redoc.ly at GET /api-docs', async () => {
+      const res = await request(app)
+        .get('/api-docs')
+        .expect('Content-Type', /html/)
+        .expect(200);
+
+      expect(res.text).toContain('https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js');
+      expect(res.text).toContain('<redoc spec-url=\'/api-docs.json\'></redoc>');
+
+      const csp = res.headers['content-security-policy'];
+      expect(csp).toBeDefined();
+      expect(csp).toContain('https://cdn.redoc.ly');
+      expect(csp).toContain("worker-src 'self' blob:");
+    });
+  });
 });
